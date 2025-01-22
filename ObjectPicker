@@ -1,0 +1,18 @@
+using UnityEngine;
+
+public class ObjectPicker : MonoBehaviour
+{
+    public Camera cam;
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                Debug.Log("Picked object: " + hit.collider.name);
+            }
+        }
+    }
+}
