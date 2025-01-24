@@ -1,0 +1,7 @@
+void AMyPlayerController::SetupInputComponent()
+{
+    Super::SetupInputComponent();
+
+    InputComponent->BindAction("Jump", IE_Pressed, this, &AMyPlayerController::Jump);
+    InputComponent->BindAxis("MoveForward", this, &AMyPlayerController::MoveForward);
+}
