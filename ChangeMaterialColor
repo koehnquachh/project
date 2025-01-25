@@ -1,0 +1,9 @@
+void AMyActor::ChangeMaterialColor()
+{
+    UMaterialInstanceDynamic* DynamicMat = UMaterialInstanceDynamic::Create(BaseMaterial, this);
+    if (DynamicMat)
+    {
+        DynamicMat->SetVectorParameterValue(FName("BaseColor"), FLinearColor::MakeRandomColor());
+        Mesh->SetMaterial(0, DynamicMat);
+    }
+}
