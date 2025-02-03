@@ -1,0 +1,12 @@
+use tokio;
+
+#[tokio::main]
+async fn main() {
+    let result = fetch_data().await;
+    println!("Fetched: {}", result);
+}
+
+async fn fetch_data() -> String {
+    // 模拟异步任务
+    "Data fetched successfully".to_string()
+}
