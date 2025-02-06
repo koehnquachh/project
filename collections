@@ -1,0 +1,6 @@
+from collections import Counter
+
+text = "hello world hello chatgpt hello python"
+words = text.split()
+frequency = Counter(words)
+print(frequency)
