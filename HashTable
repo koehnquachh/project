@@ -1,0 +1,39 @@
+class HashTable:
+    def __init__(self, size=10):
+        self.size = size
+        self.table = [[] for _ in range(size)]
+    
+    def _hash(self, key):
+        return hash(key) % self.size
+    
+    def set(self, key, value):
+        index = self._hash(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                pair[1] = value
+                return
+        self.table[index].append([key, value])
+    
+    def get(self, key):
+        index = self._hash(key)
+        for pair in self.table[index]:
+            if pair[0] == key:
+                return pair[1]
+        return None
+    
+    def remove(self, key):
+        index = self._hash(key)
+        for i, pair in enumerate(self.table[index]):
+            if pair[0] == key:
+                del self.table[index][i]
+                return True
+        return False
+
+# 测试示例
+if __name__ == "__main__":
+    ht = HashTable()
+    ht.set("apple", 100)
+    ht.set("banana", 200)
+    print("apple的值:", ht.get("apple"))  # 输出：apple的值: 100
+    ht.remove("apple")
+    print("删除apple后:", ht.get("apple"))  # 输出：删除apple后: None
