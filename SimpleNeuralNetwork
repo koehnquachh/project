@@ -1,0 +1,59 @@
+import numpy as np
+
+# 激活函数及其导数
+def sigmoid(x):
+    return 1 / (1 + np.exp(-x))
+
+def sigmoid_deriv(x):
+    return sigmoid(x) * (1 - sigmoid(x))
+
+class SimpleNeuralNetwork:
+    def __init__(self, input_size, hidden_size, output_size, learning_rate=0.1):
+        self.learning_rate = learning_rate
+        self.W1 = np.random.randn(input_size, hidden_size)
+        self.b1 = np.zeros((1, hidden_size))
+        self.W2 = np.random.randn(hidden_size, output_size)
+        self.b2 = np.zeros((1, output_size))
+    
+    def forward(self, X):
+        self.z1 = np.dot(X, self.W1) + self.b1
+        self.a1 = sigmoid(self.z1)
+        self.z2 = np.dot(self.a1, self.W2) + self.b2
+        self.a2 = sigmoid(self.z2)
+        return self.a2
+    
+    def backward(self, X, y, output):
+        # 计算输出层误差与梯度
+        output_error = y - output
+        output_delta = output_error * sigmoid_deriv(self.z2)
+        
+        # 隐藏层误差与梯度
+        hidden_error = output_delta.dot(self.W2.T)
+        hidden_delta = hidden_error * sigmoid_deriv(self.z1)
+        
+        # 更新权重和偏置
+        self.W2 += self.a1.T.dot(output_delta) * self.learning_rate
+        self.b2 += np.sum(output_delta, axis=0, keepdims=True) * self.learning_rate
+        self.W1 += X.T.dot(hidden_delta) * self.learning_rate
+        self.b1 += np.sum(hidden_delta, axis=0, keepdims=True) * self.learning_rate
+    
+    def train(self, X, y, epochs=10000):
+        for epoch in range(epochs):
+            output = self.forward(X)
+            self.backward(X, y, output)
+            if epoch % 1000 == 0:
+                loss = np.mean((y - output) ** 2)
+                print(f"Epoch {epoch} Loss: {loss}")
+
+# 示例用法：解决 XOR 问题
+if __name__ == '__main__':
+    # 输入数据：4个样本，每个2个特征
+    X = np.array([[0,0], [0,1], [1,0], [1,1]])
+    # 目标输出：XOR 逻辑
+    y = np.array([[0], [1], [1], [0]])
+    
+    nn = SimpleNeuralNetwork(input_size=2, hidden_size=4, output_size=1, learning_rate=0.5)
+    nn.train(X, y, epochs=10000)
+    output = nn.forward(X)
+    print("预测输出：")
+    print(output)
