@@ -1,0 +1,24 @@
+# 示例 8: 观察者模式的事件驱动系统
+class Event:
+    def __init__(self):
+        self.__observers = []
+
+    def subscribe(self, callback):
+        self.__observers.append(callback)
+
+    def unsubscribe(self, callback):
+        self.__observers.remove(callback)
+
+    def notify(self, *args, **kwargs):
+        for observer in self.__observers:
+            observer(*args, **kwargs)
+
+# 示例观察者函数
+def listener(event_data):
+    print("接收到事件:", event_data)
+
+if __name__ == '__main__':
+    event = Event()
+    event.subscribe(listener)
+    event.notify("事件1")
+    event.notify("事件2")
