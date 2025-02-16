@@ -1,0 +1,8 @@
+from collections import Counter
+
+def word_frequency(text):
+    words = text.lower().split()
+    return Counter(words)
+
+text = "Hello world! Hello Python. Python is fun."
+print(word_frequency(text))
