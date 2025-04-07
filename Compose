@@ -1,0 +1,18 @@
+import torch
+import torchvision.transforms as transforms
+from torchvision.models import vgg19
+from PIL import Image
+
+def load_image(path):
+    img = Image.open(path).convert('RGB')
+    transform = transforms.Compose([
+        transforms.Resize((256, 256)),
+        transforms.ToTensor()
+    ])
+    return transform(img).unsqueeze(0)
+
+style_img = load_image("style.jpg")
+content_img = load_image("content.jpg")
+
+model = vgg19(pretrained=True).features.eval()
+# 略去完整实现
