@@ -1,0 +1,13 @@
+import { useState } from 'react';
+
+export function SearchList({ items }: { items: string[] }) {
+  const [query, setQuery] = useState('');
+  const filtered = items.filter(item => item.toLowerCase().includes(query.toLowerCase()));
+
+  return (
+    <div>
+      <input value={query} onChange={e => setQuery(e.target.value)} />
+      <ul>{filtered.map((item, i) => <li key={i}>{item}</li>)}</ul>
+    </div>
+  );
+}
